@@ -15,13 +15,13 @@
                         <input v-model="title" name="title" class="w-full form-control form-input form-input-bordered" />
                     </div>
                     <div class="border-b border-40 py-4">
-                        <label for="start" class="mb-2 text-80 leading-tight">Start:</label>
-                        <date-time-picker @change="changeStart" v-model="start" name="start" class="w-full form-control form-input form-input-bordered" autocomplete="off" />
+                        <label for="available_time" class="mb-2 text-80 leading-tight">Time:</label>
+                        <date-time-picker @change="changeStart" v-model="available_time" name="available_time" class="w-full form-control form-input form-input-bordered" autocomplete="off" />
                     </div>
-                    <div class="border-b border-40 py-4">
+                    <!-- <div class="border-b border-40 py-4">
                         <label for="end" class="mb-2 text-80">End:</label>
                         <date-time-picker @change="changeEnd" v-model="end" name="end" class="w-full form-control form-input form-input-bordered" autocomplete="off" />
-                    </div>
+                    </div> -->
                 </div>
             </slot>
 
@@ -43,16 +43,12 @@
         data() {
             return {
                 title: this.currentEvent !== null ? this.currentEvent.event.title : '',
-                start: moment(this.currentEvent !== null ? this.currentEvent.event.start : this.currentDate.date).format('YYYY-MM-DD HH:mm:ss'),
-                end: this.currentEvent !== null ? moment(this.currentEvent.event.end).format('YYYY-MM-DD HH:mm:ss') : moment(this.currentDate.date).add(1, 'hour').format('YYYY-MM-DD HH:mm:ss')
+                available_time: moment(this.currentEvent !== null ? this.currentEvent.event.available_time : this.currentDate.date).format('YYYY-MM-DD HH:mm:ss')
             }
         },
         methods: {
             changeStart(value) {
-                this.start = value;
-            },
-            changeEnd(value) {
-                this.end = value;
+                this.available_time = value;
             },
             handleClose() {
                 this.$emit('close');
@@ -72,8 +68,7 @@
             handleSave() {
                 let data = {
                     title: this.title,
-                    start: this.start,
-                    end: this.end
+                    available_time: this.available_time
                 };
 
                 if (this.currentEvent === null) {

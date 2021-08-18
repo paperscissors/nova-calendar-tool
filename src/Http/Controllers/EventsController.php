@@ -3,25 +3,26 @@
 namespace Czemu\NovaCalendarTool\Http\Controllers;
 
 use Czemu\NovaCalendarTool\Models\Event;
+use App\SamplerHour;
 use Illuminate\Http\Request;
 
 class EventsController
 {
     public function index(Request $request)
     {
-        $events = Event::filter($request->query())
-            ->get(['id', 'title', 'start', 'end']);
+        $events = SamplerHour::filter($request->query())
+            ->get(['id', 'title', 'available_time']);
 
         return response()->json($events);
     }
 
     public function store(Request $request)
     {
-        $validation = Event::getModel()->validate($request->input(), 'create');
+        $validation = SamplerHour::getModel()->validate($request->input(), 'create');
 
         if ($validation->passes())
         {
-            $event = Event::create($request->input());
+            $event = SamplerHour::create($request->input());
 
             if ($event)
             {
@@ -40,8 +41,8 @@ class EventsController
 
     public function update(Request $request, $eventId)
     {
-        $event = Event::findOrFail($eventId);
-        $validation = Event::getModel()->validate($request->input(), 'update');
+        $event = SamplerHour::findOrFail($eventId);
+        $validation = SamplerHour::getModel()->validate($request->input(), 'update');
 
         if ($validation->passes())
         {
@@ -61,7 +62,7 @@ class EventsController
 
     public function destroy(Request $request, $eventId)
     {
-        $event = Event::findOrFail($eventId);
+        $event = SamplerHour::findOrFail($eventId);
 
         if ( ! is_null($event))
         {
