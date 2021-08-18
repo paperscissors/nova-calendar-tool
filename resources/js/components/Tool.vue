@@ -51,7 +51,7 @@
                         second: '2-digit',
                         hour12: false
                     },
-                    timeFormat: 'H(:mm)'
+                    // timeFormat: 'H(:mm)'
                 },
                 currentEvent: null,
                 currentDate: null,
