@@ -10,10 +10,20 @@ class EventsController
 {
     public function index(Request $request)
     {
-        $events = SamplerHour::filter($request->query())
-            ->get(['id', 'title', 'available_time']);
+        $events = SamplerHour::with('request')->filter($request->query())
+            ->get();
 
-        return response()->json($events);
+        $eventsWithCompany = [];
+        foreach ($events as $event) {
+            $eventsWithCompany[] = [
+                'available_time' => $event->available_time, 
+                'id' => $event->id,
+                'title' => $event->request->user->company
+            ];
+        }
+
+
+        return response()->json(collect($eventsWithCompany));
     }
 
     public function store(Request $request)
